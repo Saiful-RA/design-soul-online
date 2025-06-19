@@ -1,4 +1,3 @@
-
 import { ExternalLink, Github } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -32,13 +31,18 @@ const Projects = () => {
   ];
 
   return (
-    <section id="projects" className="py-20 bg-gray-50">
+    <section
+      id="projects"
+      className="py-20 bg-gray-50 dark:bg-gray-900 dark:text-white relative"
+    >
+      {/* Thin white line at the top in dark mode */}
+      <div className="hidden dark:block absolute left-0 right-0 top-0 h-px bg-white" />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
             Featured Projects
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
             Here are some of my recent projects where I've helped businesses 
             solve complex user experience challenges and achieve measurable results.
           </p>
@@ -46,7 +50,10 @@ const Projects = () => {
 
         <div className="space-y-16">
           {projects.map((project, index) => (
-            <Card key={index} className="overflow-hidden hover:shadow-xl transition-shadow duration-300">
+            <Card
+              key={index}
+              className="overflow-hidden hover:shadow-xl transition-shadow duration-300 bg-white dark:bg-gray-800 dark:text-white"
+            >
               <div className={`grid grid-cols-1 lg:grid-cols-2 gap-0 ${index % 2 === 1 ? 'lg:grid-flow-col-dense' : ''}`}>
                 <div className={`relative h-64 lg:h-auto ${index % 2 === 1 ? 'lg:col-start-2' : ''}`}>
                   <img 
@@ -58,16 +65,16 @@ const Projects = () => {
                 </div>
                 
                 <CardContent className={`p-8 lg:p-12 flex flex-col justify-center ${index % 2 === 1 ? 'lg:col-start-1' : ''}`}>
-                  <div className="text-sm text-blue-600 font-medium mb-2">{project.category}</div>
-                  <h3 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-4">{project.title}</h3>
-                  <p className="text-gray-600 mb-6 leading-relaxed">{project.description}</p>
+                  <div className="text-sm text-blue-600 dark:text-blue-300 font-medium mb-2">{project.category}</div>
+                  <h3 className="text-2xl lg:text-3xl font-bold text-gray-900 dark:text-white mb-4">{project.title}</h3>
+                  <p className="text-gray-600 dark:text-gray-200 mb-6 leading-relaxed">{project.description}</p>
                   
                   <div className="mb-6">
                     <div className="flex flex-wrap gap-2">
                       {project.tags.map((tag, tagIndex) => (
                         <span 
                           key={tagIndex}
-                          className="px-3 py-1 bg-blue-100 text-blue-700 text-sm rounded-full"
+                          className="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-200 text-sm rounded-full"
                         >
                           {tag}
                         </span>
@@ -75,16 +82,16 @@ const Projects = () => {
                     </div>
                   </div>
 
-                  <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-6">
-                    <p className="text-green-800 font-medium">Results: {project.results}</p>
+                  <div className="bg-green-50 dark:bg-green-900 border border-green-200 dark:border-green-700 rounded-lg p-4 mb-6">
+                    <p className="text-green-800 dark:text-green-200 font-medium">Results: {project.results}</p>
                   </div>
 
                   <div className="flex gap-4">
-                    <Button className="bg-blue-600 hover:bg-blue-700">
+                    <Button className="bg-blue-600 hover:bg-blue-700 text-white">
                       <ExternalLink className="mr-2 h-4 w-4" />
                       View Case Study
                     </Button>
-                    <Button variant="outline">
+                    <Button variant="outline" className="dark:text-white dark:border-gray-400">
                       <Github className="mr-2 h-4 w-4" />
                       View Prototype
                     </Button>
@@ -96,11 +103,13 @@ const Projects = () => {
         </div>
 
         <div className="text-center mt-16">
-          <Button variant="outline" className="px-8 py-3 text-lg">
+          <Button variant="outline" className="px-8 py-3 text-lg dark:text-white dark:border-gray-400">
             View All Projects
           </Button>
         </div>
       </div>
+      {/* Thin white line at the bottom in dark mode */}
+      <div className="hidden dark:block absolute left-0 right-0 bottom-0 h-px bg-white" />
     </section>
   );
 };

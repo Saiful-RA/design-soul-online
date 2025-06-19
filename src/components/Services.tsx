@@ -1,4 +1,3 @@
-
 import { Search, Palette, Code, BarChart } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
@@ -51,13 +50,18 @@ const Services = () => {
   ];
 
   return (
-    <section id="services" className="py-20 bg-white">
+    <section
+      id="services"
+      className="py-20 bg-white dark:bg-gray-900 dark:text-white relative"
+    >
+      {/* Thin white line at the top in dark mode */}
+      <div className="hidden dark:block absolute left-0 right-0 top-0 h-px bg-white" />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
             How I Can Help
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
             From initial research to final implementation, I provide comprehensive 
             UX design services that deliver measurable business value.
           </p>
@@ -65,19 +69,22 @@ const Services = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {services.map((service, index) => (
-            <Card key={index} className="hover:shadow-lg transition-shadow duration-300 border-0 shadow-md">
+            <Card
+              key={index}
+              className="hover:shadow-lg transition-shadow duration-300 border-0 shadow-md bg-white dark:bg-gray-800 dark:text-white"
+            >
               <CardHeader>
-                <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
-                  <service.icon className="w-6 h-6 text-blue-600" />
+                <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center mb-4">
+                  <service.icon className="w-6 h-6 text-blue-600 dark:text-blue-300" />
                 </div>
-                <CardTitle className="text-xl text-gray-900">{service.title}</CardTitle>
+                <CardTitle className="text-xl text-gray-900 dark:text-white">{service.title}</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-600 mb-6">{service.description}</p>
+                <p className="text-gray-600 dark:text-gray-200 mb-6">{service.description}</p>
                 <ul className="space-y-2">
                   {service.features.map((feature, featureIndex) => (
-                    <li key={featureIndex} className="flex items-center text-sm text-gray-600">
-                      <div className="w-2 h-2 bg-blue-600 rounded-full mr-3"></div>
+                    <li key={featureIndex} className="flex items-center text-sm text-gray-600 dark:text-gray-200">
+                      <div className="w-2 h-2 bg-blue-600 dark:bg-blue-400 rounded-full mr-3"></div>
                       {feature}
                     </li>
                   ))}
@@ -105,6 +112,8 @@ const Services = () => {
           </div>
         </div>
       </div>
+      {/* Thin white line at the bottom in dark mode */}
+      <div className="hidden dark:block absolute left-0 right-0 bottom-0 h-px bg-white" />
     </section>
   );
 };
