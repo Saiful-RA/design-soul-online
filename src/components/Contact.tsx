@@ -1,10 +1,15 @@
+
 import { Mail, Phone, MapPin, Linkedin, Twitter, Github } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
+import { useState } from "react";
 
 const Contact = () => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+
   const contactInfo = [
     {
       icon: Mail,
@@ -31,6 +36,36 @@ const Contact = () => {
     { icon: Twitter, href: "#", label: "Twitter" },
     { icon: Github, href: "#", label: "GitHub" }
   ];
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitStatus('idle');
+
+    const form = e.target as HTMLFormElement;
+    const formData = new FormData(form);
+
+    try {
+      const response = await fetch('https://formspree.io/f/YOUR_FORM_ID', {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
+
+      if (response.ok) {
+        setSubmitStatus('success');
+        form.reset();
+      } else {
+        setSubmitStatus('error');
+      }
+    } catch (error) {
+      setSubmitStatus('error');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <section
@@ -95,19 +130,32 @@ const Contact = () => {
           <div className="lg:col-span-2">
             <Card className="bg-white dark:bg-gray-800 dark:text-white">
               <CardContent className="p-8">
-                <form className="space-y-6">
+                <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                       <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
                         Name *
                       </label>
-                      <Input id="name" placeholder="Your name" className="dark:bg-gray-900 dark:text-white dark:border-gray-700" />
+                      <Input 
+                        id="name" 
+                        name="name"
+                        placeholder="Your name" 
+                        className="dark:bg-gray-900 dark:text-white dark:border-gray-700" 
+                        required 
+                      />
                     </div>
                     <div>
                       <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
                         Email *
                       </label>
-                      <Input id="email" type="email" placeholder="your.email@example.com" className="dark:bg-gray-900 dark:text-white dark:border-gray-700" />
+                      <Input 
+                        id="email" 
+                        name="email"
+                        type="email" 
+                        placeholder="your.email@example.com" 
+                        className="dark:bg-gray-900 dark:text-white dark:border-gray-700" 
+                        required 
+                      />
                     </div>
                   </div>
                   
@@ -115,7 +163,12 @@ const Contact = () => {
                     <label htmlFor="company" className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
                       Company
                     </label>
-                    <Input id="company" placeholder="Your company" className="dark:bg-gray-900 dark:text-white dark:border-gray-700" />
+                    <Input 
+                      id="company" 
+                      name="company"
+                      placeholder="Your company" 
+                      className="dark:bg-gray-900 dark:text-white dark:border-gray-700" 
+                    />
                   </div>
 
                   <div>
@@ -124,6 +177,7 @@ const Contact = () => {
                     </label>
                     <select 
                       id="project"
+                      name="project"
                       className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-900 dark:text-white"
                     >
                       <option value="">Select project type</option>
@@ -142,14 +196,32 @@ const Contact = () => {
                     </label>
                     <Textarea 
                       id="message" 
+                      name="message"
                       rows={6}
                       placeholder="Tell me about your project, timeline, and goals..."
                       className="dark:bg-gray-900 dark:text-white dark:border-gray-700"
+                      required
                     />
                   </div>
 
-                  <Button className="w-full bg-blue-600 hover:bg-blue-700 py-3 text-white">
-                    Send Message
+                  {submitStatus === 'success' && (
+                    <div className="p-4 bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300 rounded-md">
+                      Thank you! Your message has been sent successfully.
+                    </div>
+                  )}
+
+                  {submitStatus === 'error' && (
+                    <div className="p-4 bg-red-100 dark:bg-red-900 text-red-700 dark:text-red-300 rounded-md">
+                      Sorry, there was an error sending your message. Please try again.
+                    </div>
+                  )}
+
+                  <Button 
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="w-full bg-blue-600 hover:bg-blue-700 py-3 text-white disabled:opacity-50"
+                  >
+                    {isSubmitting ? 'Sending...' : 'Send Message'}
                   </Button>
                 </form>
               </CardContent>
